@@ -1,0 +1,9 @@
+python-dotenv
+langchain
+langchain-google-genai
+langchain-openai
+langchain-community
+langchain-weaviate
+langchain-text-splitters
+weaviate-client
+tiktoken
