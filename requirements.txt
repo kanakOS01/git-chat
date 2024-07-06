@@ -7,3 +7,10 @@ langchain-weaviate
 langchain-text-splitters
 weaviate-client
 tiktoken
+unstructured
+unstructured[all-docs]
+unstructured[docx,pptx]
+tqdm
+streamlit
+
+# pandoc
