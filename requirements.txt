@@ -1,16 +1,14 @@
 python-dotenv
 langchain
-langchain-google-genai
-langchain-openai
 langchain-community
 langchain-weaviate
 langchain-text-splitters
 weaviate-client
-tiktoken
 unstructured
 unstructured[all-docs]
 unstructured[docx,pptx]
 tqdm
 streamlit
-
+mindsdb-sdk
+# mindsdb[weaviate]
 # pandoc
