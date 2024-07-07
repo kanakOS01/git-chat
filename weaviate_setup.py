@@ -1,7 +1,7 @@
 import os
 import weaviate
 from dotenv import load_dotenv
-from langchain_google_genai import GoogleGenerativeAIEmbeddings, ChatGoogleGenerativeAI
+from langchain_google_genai import GoogleGenerativeAIEmbeddings
 from langchain_community.document_loaders import DirectoryLoader
 from langchain_weaviate.vectorstores import WeaviateVectorStore
 from langchain_text_splitters import RecursiveCharacterTextSplitter
@@ -11,48 +11,23 @@ from langchain_core.output_parsers import StrOutputParser
 load_dotenv()
 
 
-def clone_repo(url):
-    repo_name = url.split("/")[-1]
-    repo_path = os.path.join("repo", repo_name)
-    
-    url = url + ".git"
-    os.makedirs("repo", exist_ok=True)
-    os.system(f"git clone {url} {repo_path}")
+def setup_weaviate_client(repo_url):
+    embeddings = GoogleGenerativeAIEmbeddings(
+        model="models/embedding-001", api_key=os.getenv("OPENAI_API_KEY")
+    )
 
-
-def delete_local_repo():
-    os.system("rm -rf repo")
-
-
-def setup_weaviate_client():
     weaviate_client = weaviate.connect_to_wcs(
         cluster_url=os.getenv("WEAVIATE_CLUSTER_URL"),
         auth_credentials=weaviate.auth.AuthApiKey(os.getenv("WEAVIATE_API_KEY")),
-        skip_init_checks=True
+        skip_init_checks=True,
     )
 
-    return weaviate_client
-
-
-def setup_google_genai():
-    embeddings = GoogleGenerativeAIEmbeddings(
-        model="models/embedding-001", api_key=os.getenv("GOOGLE_API_KEY")
-    )
-    llm = ChatGoogleGenerativeAI(
-        model="gemini-1.5-flash",
-        temperature=0,
-        max_tokens=None,
-        timeout=None,
-        api_key=os.getenv("GOOGLE_API_KEY"),
-    )
-
-    return embeddings, llm
-
-
-def setup_weaviate_vector_store(weaviate_client, embeddings, collection):
     is_new_collection = False
-    collection = collection.replace("/", "__")
+    repo_url_split = repo_url.split("/")
+    collection = (repo_url_split[-2] + "__" + repo_url_split[-1]).lower()
     all_collections = [key.lower() for key in weaviate_client.collections.list_all()]
+
+    collection = collection.replace("-", "_")
     if collection not in all_collections:
         weaviate_client.collections.create(collection)
         is_new_collection = True
@@ -67,11 +42,17 @@ def setup_weaviate_vector_store(weaviate_client, embeddings, collection):
     return is_new_collection, vector_store
 
 
-def load_repo_files(vector_store, collection):
-    dir = collection.split("/")[1]
+def load_repo_files(vector_store, repo_url):
+    repo_url_split = repo_url.split("/")
+    repo_name = repo_url_split[-1]
+    repo_path = os.path.join("repo", repo_name)
+
+    repo_url = repo_url + ".git"
+    os.makedirs("repo", exist_ok=True)
+    os.system(f"git clone {repo_url} {repo_path}")
 
     unstructured_loader = DirectoryLoader(
-        path=f"./repo/{dir}",
+        path=f"{repo_path}",
         # exclude=["**/.git/**"],
         glob=["**/*.pdf", "**/*.rst", "**/*.md", "**/*.doc", "**/*.docx", "**/*.pptx"],
         silent_errors=True,
@@ -81,7 +62,7 @@ def load_repo_files(vector_store, collection):
         load_hidden=True,
     )
     text_loader = DirectoryLoader(
-        path=f"./repo/{dir}",
+        path=f"{repo_path}",
         exclude=[
             "**/*.pdf",
             "**/*.rst",
@@ -109,13 +90,14 @@ def load_repo_files(vector_store, collection):
 
     vector_store.add_documents(documents=splits)
 
+    os.system("rm -rf repo")
 
-def format_docs(docs, collection):
-    repo_owner, _ = collection.split("/")
+
+def format_docs(docs):
     for doc in docs:
         source = doc.metadata["source"]
         doc.metadata["source"] = source[5:]
-    formatted_docs =  "\n\n\n".join(
+    formatted_docs = "\n\n\n".join(
         "Source: " + doc.metadata["source"] + "\n\n" + doc.page_content for doc in docs
     )
 
@@ -123,24 +105,15 @@ def format_docs(docs, collection):
     return formatted_docs
 
 
-def count_all_files(path):
-    count = 0
-    for _, _, files in os.walk(path):
-        count += len(files)
-    return count
+def retrieve_docs(question, vector_store):
+    retriever = vector_store.as_retriever(
+        search_type="similarity", search_kwargs={"k": 5}
+    )
+    retrieved_docs = format_docs(retriever.invoke(question))
 
+    return retrieved_docs
 
 def query(collection, question, vector_store, llm):
-    # weaviate_client = setup_weaviate_client()
-    # embeddings, llm = setup_google_genai()
-    # is_new_collection, vector_store = setup_weaviate_vector_store(
-    #     weaviate_client=weaviate_client, embeddings=embeddings, collection=collection
-    # )
-
-    # print("Collection exists" if not is_new_collection else "Creating Collection")
-    # if is_new_collection:
-    #     load_repo(vector_store, collection)
-
     retriever = vector_store.as_retriever(
         search_type="similarity", serach_kwargs={"k": 5}
     )
@@ -164,5 +137,6 @@ Helpful Answer:"""
 
     return rag_chain.stream({"context": retrieved_docs, "question": question})
 
+
 if __name__ == "__main__":
-    pass    
+    pass
