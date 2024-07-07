@@ -11,10 +11,24 @@ from langchain_core.output_parsers import StrOutputParser
 load_dotenv()
 
 
+def clone_repo(url):
+    repo_name = url.split("/")[-1]
+    repo_path = os.path.join("repo", repo_name)
+    
+    url = url + ".git"
+    os.makedirs("repo", exist_ok=True)
+    os.system(f"git clone {url} {repo_path}")
+
+
+def delete_local_repo():
+    os.system("rm -rf repo")
+
+
 def setup_weaviate_client():
     weaviate_client = weaviate.connect_to_wcs(
         cluster_url=os.getenv("WEAVIATE_CLUSTER_URL"),
         auth_credentials=weaviate.auth.AuthApiKey(os.getenv("WEAVIATE_API_KEY")),
+        skip_init_checks=True
     )
 
     return weaviate_client
@@ -53,7 +67,7 @@ def setup_weaviate_vector_store(weaviate_client, embeddings, collection):
     return is_new_collection, vector_store
 
 
-def load_repo(vector_store, collection):
+def load_repo_files(vector_store, collection):
     dir = collection.split("/")[1]
 
     unstructured_loader = DirectoryLoader(
@@ -116,16 +130,16 @@ def count_all_files(path):
     return count
 
 
-def query(collection, question):
-    weaviate_client = setup_weaviate_client()
-    embeddings, llm = setup_google_genai()
-    is_new_collection, vector_store = setup_weaviate_vector_store(
-        weaviate_client=weaviate_client, embeddings=embeddings, collection=collection
-    )
+def query(collection, question, vector_store, llm):
+    # weaviate_client = setup_weaviate_client()
+    # embeddings, llm = setup_google_genai()
+    # is_new_collection, vector_store = setup_weaviate_vector_store(
+    #     weaviate_client=weaviate_client, embeddings=embeddings, collection=collection
+    # )
 
-    print("Collection exists" if not is_new_collection else "Creating Collection")
-    if is_new_collection:
-        load_repo(vector_store, collection)
+    # print("Collection exists" if not is_new_collection else "Creating Collection")
+    # if is_new_collection:
+    #     load_repo(vector_store, collection)
 
     retriever = vector_store.as_retriever(
         search_type="similarity", serach_kwargs={"k": 5}
