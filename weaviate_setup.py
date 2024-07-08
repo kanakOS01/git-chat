@@ -54,13 +54,20 @@ def load_repo_files(vector_store, repo_url):
 
     unstructured_loader = DirectoryLoader(
         path=f"{repo_path}",
-        # exclude=["**/.git/**"],
-        glob=["**/*.pdf", "**/*.rst", "**/*.md", "**/*.doc", "**/*.docx", "**/*.pptx"],
+        exclude=[
+            "**/*.pptx", 
+            "**/*.docx", 
+            "**/*.doc", 
+            "**/*.pdf"
+        ],
+        glob=[
+            "**/*.rst", 
+            "**/*.md"
+        ],
         silent_errors=True,
         show_progress=True,
         use_multithreading=True,
         recursive=True,
-        load_hidden=True,
     )
     text_loader = DirectoryLoader(
         path=f"{repo_path}",
@@ -77,7 +84,6 @@ def load_repo_files(vector_store, repo_url):
         show_progress=True,
         use_multithreading=True,
         recursive=True,
-        load_hidden=True,
     )
 
     unstructured_docs = unstructured_loader.load()
@@ -113,6 +119,7 @@ def retrieve_docs(question, vector_store):
     retrieved_docs = format_docs(retriever.invoke(question))
 
     return retrieved_docs
+
 
 def query(collection, question, vector_store, llm):
     retriever = vector_store.as_retriever(
