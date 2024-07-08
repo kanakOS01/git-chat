@@ -66,6 +66,5 @@ streamlit run main.py
 
 
 ### Demo
-[![Git Chat Demo Video](https://img.youtube.com/vi/YOUTUBE_VIDEO_ID_HERE/0.jpg)](https://www.youtube.com/watch?v=vGYs5mydTEM)
+[![Git Chat Demo Video](https://img.youtube.com/vi/vGYs5mydTEM/0.jpg)](https://www.youtube.com/watch?v=vGYs5mydTEM)
 
-<iframe width="1885" height="775" src="https://www.youtube.com/embed/vGYs5mydTEM" title="Git Chat demo" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
