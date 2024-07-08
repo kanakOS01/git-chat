@@ -66,6 +66,6 @@ streamlit run main.py
 
 
 ### Demo
-<div align="center">
-  <iframe width="560" height="315" src="https://youtu.be/vGYs5mydTEM" frameborder="0" allowfullscreen></iframe>
-</div>
+[![Git Chat Demo Video](https://img.youtube.com/vi/YOUTUBE_VIDEO_ID_HERE/0.jpg)](https://www.youtube.com/watch?v=vGYs5mydTEM)
+
+<iframe width="1885" height="775" src="https://www.youtube.com/embed/vGYs5mydTEM" title="Git Chat demo" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
