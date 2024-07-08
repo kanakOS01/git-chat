@@ -50,6 +50,7 @@ def load_repo_files(vector_store, repo_url):
     repo_url = repo_url + ".git"
     os.makedirs("repo", exist_ok=True)
     os.system(f"git clone {repo_url} {repo_path}")
+    os.system(f"rm -rf {repo_path}/.git")
 
     unstructured_loader = DirectoryLoader(
         path=f"{repo_path}",
