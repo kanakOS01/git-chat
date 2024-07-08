@@ -29,9 +29,9 @@ pip install -r requirements
  - Get the weaviate api key and cluster url [here](https://console.weaviate.cloud/dashboard)
    - Create a new weaviate cluster and you will get the required api key and cluster url. Refer [this](https://weaviate.io/developers/weaviate/connections/connect-cloud) 
 ```
-GOOGLE_API_KEY="AIzaSyBT4ykrOxV_BhV5mwdMfN6CA_qis-9pNLs"
-WEAVIATE_API_KEY="QeEGw6Qnluwl02jIdq7ym0sqWqeaXJrX7xgB"
-WEAVIATE_CLUSTER_URL="https://git-chat-main-1-kgfkxywm.weaviate.network"
+GOOGLE_API_KEY=""
+WEAVIATE_API_KEY=""
+WEAVIATE_CLUSTER_URL=""
 ```
 
 **5. Setup MindsDB locally**
