@@ -46,18 +46,18 @@ pip install google-generativeai
 ```
 
 #### Start the application
-Start `mindsdb_container`
+ - Start `mindsdb_container`
 ```
 docker start mindsdb_container
 ```
 
-For a fresh setup run the python file using `python create_mindsdb_handlers.py`. This will create the required projects and models in you MindsDB container.
+ - For a fresh setup run the python file using `python create_mindsdb_handlers.py`. This will create the required projects and models in you MindsDB container.
 
-Run the application using
+ - Run the application using
 ```
 streamlit run main.py
 ```
-The app will start on `localhost:8501`
+ - The app will start on `localhost:8501`
 
 ### Note
 - The repo data is stored in weaviate cloud. The data is persistent. If the repo is not present it is automatically created however this can take a long time depending on the size of the repository.
