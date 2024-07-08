@@ -63,3 +63,9 @@ streamlit run main.py
 - The repo data is stored in weaviate cloud. The data is persistent. If the repo is not present it is automatically created however this can take a long time depending on the size of the repository.
 - It is recommended to use relatively smaller directories while testing (you may use a large repo although that will take some time)
 - The process of embedding new repo data creates a transient `repo` subdirectory in the main directory. Make sure you do not have conflicting subdirectory.
+
+
+### Demo
+<div align="center">
+  <iframe width="560" height="315" src="https://youtu.be/vGYs5mydTEM" frameborder="0" allowfullscreen></iframe>
+</div>
