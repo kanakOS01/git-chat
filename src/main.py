@@ -11,6 +11,7 @@ def is_github_url(repo_url):
         return False
 
 if __name__ == '__main__':
+    st.set_page_config(page_title="GitChat", page_icon="🤖", layout="centered")
     st.title("GitChat")
     st.subheader("Answer Questions about a Github Repo")
     repo_url = st.text_input(label=":violet[Enter the repo URL]", placeholder="https://github.com/owner/repo")
