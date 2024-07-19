@@ -4,7 +4,7 @@ Git Chat is a RAG application that allows you to have a q/a session with any git
 It uses [weaviate cloud vector database](https://weaviate.io/) to store the embeddings, [MindsDB](https://www.mindsdb.com/) to host llm models and engines and facilitate queries with context and [streamlit](https://streamlit.io/) for UI along with [LangChain](https://www.langchain.com/) for some other processes.
 
 ### Demo
-<iframe width="560" height="315" src="https://www.youtube.com/embed/2lWYNJuNlmk" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+[![Git Chat Demo Video](https://img.youtube.com/vi/2lWYNJuNlmk/0.jpg)](https://youtu.be/2lWYNJuNlmk)
 
 ## Getting started
 #### Prerequisites
