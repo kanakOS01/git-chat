@@ -3,6 +3,9 @@ Git Chat is a RAG application that allows you to have a q/a session with any git
 
 It uses [weaviate cloud vector database](https://weaviate.io/) to store the embeddings, [MindsDB](https://www.mindsdb.com/) to host llm models and engines and facilitate queries with context and [streamlit](https://streamlit.io/) for UI along with [LangChain](https://www.langchain.com/) for some other processes.
 
+### Demo
+<iframe width="560" height="315" src="https://www.youtube.com/embed/2lWYNJuNlmk" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
 ## Getting started
 #### Prerequisites
  - Python 3.7 or higher
@@ -63,8 +66,3 @@ streamlit run main.py
 - The repo data is stored in weaviate cloud. The data is persistent. If the repo is not present it is automatically created however this can take a long time depending on the size of the repository.
 - It is recommended to use relatively smaller directories while testing (you may use a large repo although that will take some time)
 - The process of embedding new repo data creates a transient `repo` subdirectory in the main directory. Make sure you do not have conflicting subdirectory.
-
-
-### Demo
-[![Git Chat Demo Video](https://img.youtube.com/vi/vGYs5mydTEM/0.jpg)](https://www.youtube.com/watch?v=vGYs5mydTEM)
-
